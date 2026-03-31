@@ -218,7 +218,17 @@ function vote(choice){
 }
 
 function login(){ 
-  if(user.value==="arda" && pass.value==="ardaege35"){ 
+  const admins = [
+    {user: "arda", pass: "arda35"},
+    {user: "erkan", pass: "erkan35"},
+    {user: "halise", pass: "halise35"}
+  ];
+
+  const enteredUser = user.value;
+  const enteredPass = pass.value;
+  const found = admins.find(a => a.user === enteredUser && a.pass === enteredPass);
+
+  if(found){ 
     goPage("admin"); 
     document.getElementById("admin").classList.add("active");
     loadAdminData(); 
