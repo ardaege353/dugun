@@ -28,25 +28,36 @@ body{
   transform:translate(-50%,-50%); z-index:9999;
   transition:transform 0.1s ease;
 }
-.page{ position: fixed; top:50%; left:50%; transform:translate(-50%, -50%) scale(0.95); opacity:0; transition: all 0.4s ease; pointer-events:none; display: flex; justify-content: center; align-items: center; touch-action: manipulation;}
-.page.active{ opacity:1; transform:translate(-50%, -50%) scale(1); pointer-events:auto;}
 
-.card{ background: var(--card); backdrop-filter: blur(20px); border-radius: 15px; padding: 30px; width: 90%; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,.5); transition: 0.3s;}
+/* Sayfa containerları */
+.page{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  display:flex; justify-content:center; align-items:center;
+  opacity:0; pointer-events:none; transition:opacity 0.3s ease;
+}
+.page.active{
+  opacity:1; pointer-events:auto;
+}
+.card{
+  background: var(--card); backdrop-filter: blur(20px); border-radius:15px;
+  padding:30px; width:90%; max-width:400px; text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,.5);
+}
 .input-container{position:relative; margin:15px 0;}
-input{ width:100%; padding:14px 12px; border-radius:10px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.6); color:white; outline:none; backdrop-filter:blur(10px); font-size:16px; transition:0.3s; min-height:44px; -webkit-tap-highlight-color: rgba(255,255,255,0.2);}
+input{ width:100%; padding:14px 12px; border-radius:10px; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.6); color:white; outline:none; backdrop-filter:blur(10px); font-size:16px; min-height:44px;}
 input:focus{ border:1px solid #fff; box-shadow:0 0 15px rgba(255,255,255,0.6);}
 input::placeholder{ color:transparent; }
 label{ position:absolute; top:50%; left:12px; transform:translateY(-50%); color:rgba(255,255,255,0.7); pointer-events:none; transition:0.3s;}
 input:focus + label, input:not(:placeholder-shown) + label{ top:-8px; left:8px; font-size:12px; color:white; background:rgba(0,0,0,0.3); padding:0 5px; border-radius:5px;}
-button{ padding:12px 18px; margin:5px; border:none; border-radius:10px; cursor:pointer; color:white; font-weight:600; transition:0.3s, transform 0.2s; min-height:44px;}
-button:hover{ transform:scale(1.08);}
+button{ padding:12px 18px; margin:5px; border:none; border-radius:10px; cursor:pointer; color:white; font-weight:600; min-height:44px;}
+button:hover{ transform:scale(1.05);}
 button:active{ transform:scale(0.95);}
 .btn{background:var(--accent);} .yes{background:var(--yes);} .no{background:var(--no);}
 .back{background:#888;} .delete{background:var(--no); margin-left:5px;}
 #adminBtn{position:absolute; top:15px; right:15px; background:rgba(255,255,255,0.2); padding:10px 14px; border-radius:10px; cursor:pointer; z-index:2; font-size:16px;}
 #adminBtn:hover{transform:scale(1.1);}
 
-/* Dashboard mobil uyum */
+/* Dashboard */
 .dashboard-container{
   display:flex; flex-direction:column; max-height:95vh; overflow:hidden; border-radius:15px; background:rgba(255,255,255,0.05); backdrop-filter:blur(20px);
 }
@@ -55,7 +66,7 @@ button:active{ transform:scale(0.95);}
 }
 .sidebar-header{padding:15px; border-bottom:1px solid rgba(255,255,255,0.2);}
 .sidebar-menu{list-style:none; padding:0; margin:0; display:flex; flex-wrap:wrap;}
-.sidebar-menu li{padding:12px 15px; cursor:pointer; min-width:120px; border-right:1px solid rgba(255,255,255,0.1); transition:0.3s;}
+.sidebar-menu li{padding:12px 15px; cursor:pointer; min-width:120px; border-right:1px solid rgba(255,255,255,0.1);}
 .sidebar-menu li:hover{background:rgba(255,255,255,0.1);}
 .admin-main{
   flex:1; padding:15px; overflow-y:auto; -webkit-overflow-scrolling:touch; max-height:80vh;
@@ -63,16 +74,16 @@ button:active{ transform:scale(0.95);}
 .admin-section{display:none;}
 .admin-section.active{display:block;}
 .cards{display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap;}
-.stat-card{flex:1; min-width:120px; background:rgba(255,255,255,0.1); padding:15px; border-radius:15px; text-align:center; font-size:16px; transition:0.3s;}
-.stat-card:hover{background:rgba(255,255,255,0.2);}
+.stat-card{flex:1; min-width:120px; background:rgba(255,255,255,0.1); padding:15px; border-radius:15px; text-align:center; font-size:16px;}
 #userList{list-style:none; padding:0; font-size:16px;}
 .user-item{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
 .user-item span.time{font-size:12px; color:rgba(255,255,255,0.5); margin-left:10px;}
 #searchUser{padding:12px; width:100%; margin-bottom:10px; border-radius:10px; border:none; outline:none; background:rgba(255,255,255,0.1); color:white; font-size:16px;}
-#searchUser::placeholder{color:rgba(255,255,255,0.5);}
 
-/* Küçük ekranlarda */
-@media(max-width:480px){ .card{width:95%; padding:20px;} }
+/* Mobil */
+@media(max-width:480px){
+  .card{width:95%; padding:20px;}
+}
 </style>
 </head>
 <body>
@@ -96,8 +107,8 @@ button:active{ transform:scale(0.95);}
 <div class="page" id="vote">
   <div class="card">
     <h2>Düğünde Bizimlemisin?</h2>
-    <button class="yes" onclick="vote('evet')">Evet</button>
-    <button class="no" onclick="vote('hayir')">Hayır</button>
+    <button class="yes" id="voteYes">Evet</button>
+    <button class="no" id="voteNo">Hayır</button>
   </div>
 </div>
 
@@ -163,35 +174,36 @@ function goPage(id){
   document.getElementById(id).classList.add("active");
 }
 
-// Start button mobil uyumlu
+// Start button dokunmatik uyumlu
 const startBtn = document.getElementById('startBtn');
 startBtn.addEventListener('click', start);
 startBtn.addEventListener('touchstart', start);
 
 function start(){
-  let nameInput = document.getElementById("name");
-  let n = (nameInput.value || "").trim().toLowerCase().replace(/\s+/g,'');
+  let n = (document.getElementById("name").value || "").trim().toLowerCase().replace(/\s+/g,'');
   if(!n) return alert("Lütfen adınızı girin!");
   currentUser = n;
-
-  if(localStorage.getItem('voted_'+currentUser)){
-      alert("Zaten oy verdiniz! Oy değiştirmek için mevcut oyunuzu kullanın.");
-  }
-
   goPage("vote");
 }
 
+// Oy butonları dokunmatik uyumlu
+const voteYes = document.getElementById('voteYes');
+const voteNo = document.getElementById('voteNo');
+voteYes.addEventListener('click', ()=>vote('evet'));
+voteYes.addEventListener('touchstart', ()=>vote('evet'));
+voteNo.addEventListener('click', ()=>vote('hayir'));
+voteNo.addEventListener('touchstart', ()=>vote('hayir'));
+
 function vote(choice){
   if(!currentUser) return;
-  const now = new Date().toLocaleString("tr-TR");
   const userId = 'user_' + currentUser;
+  const now = new Date().toLocaleString("tr-TR");
   db.ref('votes/'+userId).set({name:currentUser, choice, time: now})
   .then(()=>{
-      localStorage.setItem('voted_'+currentUser, choice);
-      alert("Oy kaydedildi! ✅");
-      if(document.getElementById("admin").classList.contains("active")){
-          loadAdminData();
-      }
+    alert("Oy kaydedildi! ✅");
+    if(document.getElementById("admin").classList.contains("active")){
+      loadAdminData();
+    }
   });
 }
 
@@ -246,13 +258,6 @@ function deleteVote(k){ db.ref('votes/'+k).remove(); }
 function changeVote(k,val){
   const now = new Date().toLocaleString("tr-TR");
   db.ref('votes/'+k).update({choice: val, time: now});
-  localStorage.setItem('voted_'+currentUser, val);
-}
-function filterUsers(){
-  let val=document.getElementById("searchUser").value.toLowerCase();
-  document.querySelectorAll("#userList li").forEach(li=>{
-    li.style.display=li.textContent.toLowerCase().includes(val)? "flex":"none";
-  });
 }
 
 // Cursor
